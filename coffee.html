@@ -50,8 +50,17 @@
 
 
     var myImage = $('#coffee_image'); 
+    var espressoButton = $('#espresso');
+    var latteButton = $('#latte');
+    var hotChocolateButton = $('#hot-chocolate');
     var myRevenueMessage = $('#revenue');
     var drinksOrdered = new Array();
+    var drinkPrices = {
+                    'espresso': 3.25, 
+                    'latte': 4.15, 
+                    'hot chocolate': 2.50, 
+                    'brew': 2.00, 
+    };
 
     myImage.attr('src', 'static/coffee_beans.jpg');
 
@@ -64,9 +73,6 @@
     //     return makeCoffee("brew");
     // });
 
-    myImage.click(function() {
-        return makeCoffee("brew");
-    })
 
     function makeCoffee(drinkType) {
          myImage.attr('src', 'static/coffee_machine.jpg');
@@ -75,9 +81,57 @@
 
          drinksOrdered.push(drinkType);
          console.log(drinksOrdered);
+         return drinksOrdered;
 
     }
+
+    function calculateRevenue(drinksOrdered, drinkPrices) {
+        
+        var revenue = 0;
+
+        for (var i = 0; i< drinksOrdered.length; i++) {
+            var currentDrink = drinksOrdered[i];
+            var currentPrice = drinkPrices[currentDrink];
+            revenue += currentPrice;
+        }
+
+        return revenue;
+    }
+
+    myImage.click(function() {
+        var drinks = makeCoffee("brew");
+        var finalRevenue = calculateRevenue(drinks, drinkPrices);
+        myRevenueMessage.text("$" + finalRevenue.toFixed(2));
+    });
+
+    espressoButton.click(function() {
+
+        var drinks = makeCoffee("espresso");
+        var finalRevenue = calculateRevenue(drinks, drinkPrices);
+        myRevenueMessage.text("$" + finalRevenue.toFixed(2));
+    });
+
+    latteButton.click(function() {
+        var drinks = makeCoffee("latte");
+        var finalRevenue = calculateRevenue(drinks, drinkPrices);
+        myRevenueMessage.text("$" + finalRevenue.toFixed(2));
+    });
+
+    hotChocolateButton.click(function() {
+        var drinks = makeCoffee("hot chocolate");
+        var finalRevenue = calculateRevenue(drinks, drinkPrices);
+        myRevenueMessage.text("$" + finalRevenue.toFixed(2));
+    });
     
+    myImage.mouseover(function() {
+        myImage.attr('src', 'static/coffee_machine.jpg');
+    });
+
+
+
+
+
+
 
     // myImage.click(function makeCoffee(drinkType) {
     //      myImage.attr('src', 'static/coffee_machine.jpg');
